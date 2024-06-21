@@ -1,0 +1,20 @@
+--Testing backend for Prisma, node.js, postgresql, and docker, in TS.
+    -When we test the functionalities, we want to create a new database
+        different from the real one.
+        -How?
+            -Compose up a new docker, test, then compose down.
+            -Make sure the routes are correct.
+            -Create two different env files and adjust that in
+                your package.json file:
+                    .env.files should be: .env.dev, for the real,
+                                            .env.test for testing purposes
+            
+
+        "scripts": {
+            "build": "tsc",
+    ====>         "start": "npx dotenv-cli -e .env.dev -- ts-node src/index.ts",
+            "migrate:up": "prisma migrate deploy",
+            "migrate:down": "prisma migrate reset --force",
+    ====>        "test": "npx dotenv-cli -e .env.test -- vitest --config=vitest.config.ts",
+            "seed:db": "npx tsx src/seed.ts" 
+        },
